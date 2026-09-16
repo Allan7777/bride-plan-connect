@@ -10,15 +10,23 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PrecosRouteImport } from './routes/precos'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedMeuCasamentoRouteImport } from './routes/_authenticated.meu-casamento'
+import { Route as AuthenticatedNoivaRouteImport } from './routes/_authenticated.noiva'
+import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated.onboarding'
 import { Route as FornecedoresIndexRouteImport } from './routes/fornecedores.index'
 import { Route as FornecedoresCategoriaRouteImport } from './routes/fornecedores.$categoria'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -36,6 +44,22 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedMeuCasamentoRoute =
+  AuthenticatedMeuCasamentoRouteImport.update({
+    id: '/meu-casamento',
+    path: '/meu-casamento',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedNoivaRoute = AuthenticatedNoivaRouteImport.update({
+  id: '/noiva',
+  path: '/noiva',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const FornecedoresIndexRoute = FornecedoresIndexRouteImport.update({
   id: '/fornecedores/',
   path: '/fornecedores/',
@@ -52,6 +76,9 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/precos': typeof PrecosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
+  '/noiva': typeof AuthenticatedNoivaRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores/': typeof FornecedoresIndexRoute
 }
@@ -60,15 +87,22 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/precos': typeof PrecosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
+  '/noiva': typeof AuthenticatedNoivaRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores': typeof FornecedoresIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/precos': typeof PrecosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
+  '/_authenticated/noiva': typeof AuthenticatedNoivaRoute
+  '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores/': typeof FornecedoresIndexRoute
 }
@@ -79,6 +113,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/precos'
     | '/reset-password'
+    | '/meu-casamento'
+    | '/noiva'
+    | '/onboarding'
     | '/fornecedores/$categoria'
     | '/fornecedores/'
   fileRoutesByTo: FileRoutesByTo
@@ -87,20 +124,28 @@ export interface FileRouteTypes {
     | '/auth'
     | '/precos'
     | '/reset-password'
+    | '/meu-casamento'
+    | '/noiva'
+    | '/onboarding'
     | '/fornecedores/$categoria'
     | '/fornecedores'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/auth'
     | '/precos'
     | '/reset-password'
+    | '/_authenticated/meu-casamento'
+    | '/_authenticated/noiva'
+    | '/_authenticated/onboarding'
     | '/fornecedores/$categoria'
     | '/fornecedores/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   PrecosRoute: typeof PrecosRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -115,6 +160,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -138,6 +190,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/meu-casamento': {
+      id: '/_authenticated/meu-casamento'
+      path: '/meu-casamento'
+      fullPath: '/meu-casamento'
+      preLoaderRoute: typeof AuthenticatedMeuCasamentoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/noiva': {
+      id: '/_authenticated/noiva'
+      path: '/noiva'
+      fullPath: '/noiva'
+      preLoaderRoute: typeof AuthenticatedNoivaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/onboarding': {
+      id: '/_authenticated/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/fornecedores/': {
       id: '/fornecedores/'
       path: '/fornecedores'
@@ -155,8 +228,24 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedMeuCasamentoRoute: typeof AuthenticatedMeuCasamentoRoute
+  AuthenticatedNoivaRoute: typeof AuthenticatedNoivaRoute
+  AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedMeuCasamentoRoute: AuthenticatedMeuCasamentoRoute,
+  AuthenticatedNoivaRoute: AuthenticatedNoivaRoute,
+  AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   PrecosRoute: PrecosRoute,
   ResetPasswordRoute: ResetPasswordRoute,
