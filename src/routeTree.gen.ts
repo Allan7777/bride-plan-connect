@@ -17,9 +17,12 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedMeuCasamentoRouteImport } from './routes/_authenticated.meu-casamento'
 import { Route as AuthenticatedNoivaRouteImport } from './routes/_authenticated.noiva'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated.onboarding'
+import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated.painel'
 import { Route as FornecedorSlugRouteImport } from './routes/fornecedor.$slug'
 import { Route as FornecedoresIndexRouteImport } from './routes/fornecedores.index'
 import { Route as FornecedoresCategoriaRouteImport } from './routes/fornecedores.$categoria'
+import { Route as AuthenticatedPainelLeadsRouteImport } from './routes/_authenticated.painel.leads'
+import { Route as AuthenticatedPainelPerfilRouteImport } from './routes/_authenticated.painel.perfil'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -61,6 +64,11 @@ const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const FornecedorSlugRoute = FornecedorSlugRouteImport.update({
   id: '/fornecedor/$slug',
   path: '/fornecedor/$slug',
@@ -76,6 +84,18 @@ const FornecedoresCategoriaRoute = FornecedoresCategoriaRouteImport.update({
   path: '/fornecedores/$categoria',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedPainelLeadsRoute =
+  AuthenticatedPainelLeadsRouteImport.update({
+    id: '/leads',
+    path: '/leads',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPainelPerfilRoute =
+  AuthenticatedPainelPerfilRouteImport.update({
+    id: '/perfil',
+    path: '/perfil',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -85,9 +105,12 @@ export interface FileRoutesByFullPath {
   '/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
   '/noiva': typeof AuthenticatedNoivaRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/painel': typeof AuthenticatedPainelRouteWithChildren
   '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores/': typeof FornecedoresIndexRoute
+  '/painel/leads': typeof AuthenticatedPainelLeadsRoute
+  '/painel/perfil': typeof AuthenticatedPainelPerfilRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -97,9 +120,12 @@ export interface FileRoutesByTo {
   '/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
   '/noiva': typeof AuthenticatedNoivaRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/painel': typeof AuthenticatedPainelRouteWithChildren
   '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores': typeof FornecedoresIndexRoute
+  '/painel/leads': typeof AuthenticatedPainelLeadsRoute
+  '/painel/perfil': typeof AuthenticatedPainelPerfilRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -111,9 +137,12 @@ export interface FileRoutesById {
   '/_authenticated/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
   '/_authenticated/noiva': typeof AuthenticatedNoivaRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/_authenticated/painel': typeof AuthenticatedPainelRouteWithChildren
   '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores/': typeof FornecedoresIndexRoute
+  '/_authenticated/painel/leads': typeof AuthenticatedPainelLeadsRoute
+  '/_authenticated/painel/perfil': typeof AuthenticatedPainelPerfilRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -125,9 +154,12 @@ export interface FileRouteTypes {
     | '/meu-casamento'
     | '/noiva'
     | '/onboarding'
+    | '/painel'
     | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores/'
+    | '/painel/leads'
+    | '/painel/perfil'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -137,9 +169,12 @@ export interface FileRouteTypes {
     | '/meu-casamento'
     | '/noiva'
     | '/onboarding'
+    | '/painel'
     | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores'
+    | '/painel/leads'
+    | '/painel/perfil'
   id:
     | '__root__'
     | '/'
@@ -150,9 +185,12 @@ export interface FileRouteTypes {
     | '/_authenticated/meu-casamento'
     | '/_authenticated/noiva'
     | '/_authenticated/onboarding'
+    | '/_authenticated/painel'
     | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores/'
+    | '/_authenticated/painel/leads'
+    | '/_authenticated/painel/perfil'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -224,6 +262,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/painel': {
+      id: '/_authenticated/painel'
+      path: '/painel'
+      fullPath: '/painel'
+      preLoaderRoute: typeof AuthenticatedPainelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/fornecedor/$slug': {
       id: '/fornecedor/$slug'
       path: '/fornecedor/$slug'
@@ -245,19 +290,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FornecedoresCategoriaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/painel/leads': {
+      id: '/_authenticated/painel/leads'
+      path: '/leads'
+      fullPath: '/painel/leads'
+      preLoaderRoute: typeof AuthenticatedPainelLeadsRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/painel/perfil': {
+      id: '/_authenticated/painel/perfil'
+      path: '/perfil'
+      fullPath: '/painel/perfil'
+      preLoaderRoute: typeof AuthenticatedPainelPerfilRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
   }
 }
+
+interface AuthenticatedPainelRouteChildren {
+  AuthenticatedPainelLeadsRoute: typeof AuthenticatedPainelLeadsRoute
+  AuthenticatedPainelPerfilRoute: typeof AuthenticatedPainelPerfilRoute
+}
+
+const AuthenticatedPainelRouteChildren: AuthenticatedPainelRouteChildren = {
+  AuthenticatedPainelLeadsRoute: AuthenticatedPainelLeadsRoute,
+  AuthenticatedPainelPerfilRoute: AuthenticatedPainelPerfilRoute,
+}
+
+const AuthenticatedPainelRouteWithChildren =
+  AuthenticatedPainelRoute._addFileChildren(AuthenticatedPainelRouteChildren)
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedMeuCasamentoRoute: typeof AuthenticatedMeuCasamentoRoute
   AuthenticatedNoivaRoute: typeof AuthenticatedNoivaRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
+  AuthenticatedPainelRoute: typeof AuthenticatedPainelRouteWithChildren
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedMeuCasamentoRoute: AuthenticatedMeuCasamentoRoute,
   AuthenticatedNoivaRoute: AuthenticatedNoivaRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
+  AuthenticatedPainelRoute: AuthenticatedPainelRouteWithChildren,
 }
 
 const AuthenticatedRouteRouteWithChildren =
