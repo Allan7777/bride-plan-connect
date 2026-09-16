@@ -482,22 +482,79 @@ export type Database = {
           },
         ]
       }
+      vendor_events: {
+        Row: {
+          actor_id: string | null
+          category_id: string | null
+          created_at: string
+          event_type: Database["public"]["Enums"]["vendor_event_type"]
+          id: string
+          source: string
+          vendor_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          category_id?: string | null
+          created_at?: string
+          event_type: Database["public"]["Enums"]["vendor_event_type"]
+          id?: string
+          source?: string
+          vendor_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          category_id?: string | null
+          created_at?: string
+          event_type?: Database["public"]["Enums"]["vendor_event_type"]
+          id?: string
+          source?: string
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vendor_events_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vendor_events_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       vendor_photos: {
         Row: {
+          created_at: string
+          description: string | null
           id: string
+          is_cover: boolean
           sort_order: number
+          storage_path: string | null
           url: string
           vendor_id: string
         }
         Insert: {
+          created_at?: string
+          description?: string | null
           id?: string
+          is_cover?: boolean
           sort_order?: number
+          storage_path?: string | null
           url: string
           vendor_id: string
         }
         Update: {
+          created_at?: string
+          description?: string | null
           id?: string
+          is_cover?: boolean
           sort_order?: number
+          storage_path?: string | null
           url?: string
           vendor_id?: string
         }
@@ -560,6 +617,7 @@ export type Database = {
           is_demo: boolean
           logo_url: string | null
           owner_name: string | null
+          portfolio_limit: number
           price_from: number | null
           price_to: number | null
           primary_category_id: string | null
@@ -573,6 +631,8 @@ export type Database = {
           website: string | null
           whatsapp: string | null
           whatsapp_clicks: number
+          whatsapp_message: string | null
+          work_description: Json
         }
         Insert: {
           address?: string | null
@@ -587,6 +647,7 @@ export type Database = {
           is_demo?: boolean
           logo_url?: string | null
           owner_name?: string | null
+          portfolio_limit?: number
           price_from?: number | null
           price_to?: number | null
           primary_category_id?: string | null
@@ -600,6 +661,8 @@ export type Database = {
           website?: string | null
           whatsapp?: string | null
           whatsapp_clicks?: number
+          whatsapp_message?: string | null
+          work_description?: Json
         }
         Update: {
           address?: string | null
@@ -614,6 +677,7 @@ export type Database = {
           is_demo?: boolean
           logo_url?: string | null
           owner_name?: string | null
+          portfolio_limit?: number
           price_from?: number | null
           price_to?: number | null
           primary_category_id?: string | null
@@ -627,6 +691,8 @@ export type Database = {
           website?: string | null
           whatsapp?: string | null
           whatsapp_clicks?: number
+          whatsapp_message?: string | null
+          work_description?: Json
         }
         Relationships: [
           {
@@ -704,6 +770,15 @@ export type Database = {
         }
         Returns: boolean
       }
+      track_vendor_event: {
+        Args: {
+          _category_id?: string
+          _event_type: Database["public"]["Enums"]["vendor_event_type"]
+          _source?: string
+          _vendor_id: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       app_role: "admin" | "bride" | "vendor"
@@ -716,6 +791,12 @@ export type Database = {
         | "negociacao"
         | "contratado"
       user_type: "bride" | "vendor"
+      vendor_event_type:
+        | "profile_view"
+        | "favorite"
+        | "budget_request"
+        | "whatsapp_click"
+        | "lead_created"
       vendor_status: "pendente" | "aprovado" | "rejeitado" | "suspenso"
     }
     CompositeTypes: {
@@ -855,6 +936,13 @@ export const Constants = {
         "contratado",
       ],
       user_type: ["bride", "vendor"],
+      vendor_event_type: [
+        "profile_view",
+        "favorite",
+        "budget_request",
+        "whatsapp_click",
+        "lead_created",
+      ],
       vendor_status: ["pendente", "aprovado", "rejeitado", "suspenso"],
     },
   },
