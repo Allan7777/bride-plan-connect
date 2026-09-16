@@ -10,33 +10,102 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as PrecosRouteImport } from './routes/precos'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as FornecedoresIndexRouteImport } from './routes/fornecedores.index'
+import { Route as FornecedoresCategoriaRouteImport } from './routes/fornecedores.$categoria'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrecosRoute = PrecosRouteImport.update({
+  id: '/precos',
+  path: '/precos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FornecedoresIndexRoute = FornecedoresIndexRouteImport.update({
+  id: '/fornecedores/',
+  path: '/fornecedores/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FornecedoresCategoriaRoute = FornecedoresCategoriaRouteImport.update({
+  id: '/fornecedores/$categoria',
+  path: '/fornecedores/$categoria',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/precos': typeof PrecosRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
+  '/fornecedores/': typeof FornecedoresIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/precos': typeof PrecosRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
+  '/fornecedores': typeof FornecedoresIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/precos': typeof PrecosRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
+  '/fornecedores/': typeof FornecedoresIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/precos'
+    | '/reset-password'
+    | '/fornecedores/$categoria'
+    | '/fornecedores/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/precos'
+    | '/reset-password'
+    | '/fornecedores/$categoria'
+    | '/fornecedores'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/precos'
+    | '/reset-password'
+    | '/fornecedores/$categoria'
+    | '/fornecedores/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  PrecosRoute: typeof PrecosRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  FornecedoresCategoriaRoute: typeof FornecedoresCategoriaRoute
+  FornecedoresIndexRoute: typeof FornecedoresIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +117,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/precos': {
+      id: '/precos'
+      path: '/precos'
+      fullPath: '/precos'
+      preLoaderRoute: typeof PrecosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fornecedores/': {
+      id: '/fornecedores/'
+      path: '/fornecedores'
+      fullPath: '/fornecedores/'
+      preLoaderRoute: typeof FornecedoresIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fornecedores/$categoria': {
+      id: '/fornecedores/$categoria'
+      path: '/fornecedores/$categoria'
+      fullPath: '/fornecedores/$categoria'
+      preLoaderRoute: typeof FornecedoresCategoriaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  PrecosRoute: PrecosRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  FornecedoresCategoriaRoute: FornecedoresCategoriaRoute,
+  FornecedoresIndexRoute: FornecedoresIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
