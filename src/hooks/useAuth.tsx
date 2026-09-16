@@ -43,12 +43,21 @@ export function useAccount(userId?: string | null) {
     queryKey: ["account", userId],
     enabled: !!userId,
     queryFn: async (): Promise<AccountInfo> => {
+      if (!userId) {
+        return {
+          profile: null,
+          isAdmin: false,
+          vendorId: null,
+          vendorStatus: null,
+          brideOnboarded: false,
+        };
+      }
       const [{ data: profile }, { data: roles }, { data: vendor }, { data: bride }] =
         await Promise.all([
-          supabase.from("profiles").select("*").eq("id", userId!).maybeSingle(),
-          supabase.from("user_roles").select("role").eq("user_id", userId!),
-          supabase.from("vendors").select("id,status").eq("user_id", userId!).maybeSingle(),
-          supabase.from("brides").select("onboarded").eq("id", userId!).maybeSingle(),
+          supabase.from("profiles").select("*").eq("id", userId).maybeSingle(),
+          supabase.from("user_roles").select("role").eq("user_id", userId),
+          supabase.from("vendors").select("id,status").eq("user_id", userId).maybeSingle(),
+          supabase.from("brides").select("onboarded").eq("id", userId).maybeSingle(),
         ]);
       return {
         profile: (profile as AccountInfo["profile"]) ?? null,
