@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PrecosRouteImport } from './routes/precos'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as FornecedoresIndexRouteImport } from './routes/fornecedores.index'
+import { Route as FornecedoresCategoriaRouteImport } from './routes/fornecedores.$categoria'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -34,18 +36,32 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FornecedoresIndexRoute = FornecedoresIndexRouteImport.update({
+  id: '/fornecedores/',
+  path: '/fornecedores/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FornecedoresCategoriaRoute = FornecedoresCategoriaRouteImport.update({
+  id: '/fornecedores/$categoria',
+  path: '/fornecedores/$categoria',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/precos': typeof PrecosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
+  '/fornecedores/': typeof FornecedoresIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/precos': typeof PrecosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
+  '/fornecedores': typeof FornecedoresIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +69,34 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/precos': typeof PrecosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
+  '/fornecedores/': typeof FornecedoresIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/precos' | '/reset-password'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/precos'
+    | '/reset-password'
+    | '/fornecedores/$categoria'
+    | '/fornecedores/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/precos' | '/reset-password'
-  id: '__root__' | '/' | '/auth' | '/precos' | '/reset-password'
+  to:
+    | '/'
+    | '/auth'
+    | '/precos'
+    | '/reset-password'
+    | '/fornecedores/$categoria'
+    | '/fornecedores'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/precos'
+    | '/reset-password'
+    | '/fornecedores/$categoria'
+    | '/fornecedores/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +104,8 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   PrecosRoute: typeof PrecosRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  FornecedoresCategoriaRoute: typeof FornecedoresCategoriaRoute
+  FornecedoresIndexRoute: typeof FornecedoresIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +138,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/fornecedores/': {
+      id: '/fornecedores/'
+      path: '/fornecedores'
+      fullPath: '/fornecedores/'
+      preLoaderRoute: typeof FornecedoresIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fornecedores/$categoria': {
+      id: '/fornecedores/$categoria'
+      path: '/fornecedores/$categoria'
+      fullPath: '/fornecedores/$categoria'
+      preLoaderRoute: typeof FornecedoresCategoriaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +160,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   PrecosRoute: PrecosRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  FornecedoresCategoriaRoute: FornecedoresCategoriaRoute,
+  FornecedoresIndexRoute: FornecedoresIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
