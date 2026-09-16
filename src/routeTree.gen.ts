@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PrecosRouteImport } from './routes/precos'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
 import { Route as AuthenticatedAssinaturaRouteImport } from './routes/_authenticated.assinatura'
 import { Route as AuthenticatedContatosRouteImport } from './routes/_authenticated.contatos'
 import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated.favoritos'
@@ -51,6 +52,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAssinaturaRoute = AuthenticatedAssinaturaRouteImport.update({
   id: '/assinatura',
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/precos': typeof PrecosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/assinatura': typeof AuthenticatedAssinaturaRoute
   '/contatos': typeof AuthenticatedContatosRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
@@ -145,6 +152,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/precos': typeof PrecosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/assinatura': typeof AuthenticatedAssinaturaRoute
   '/contatos': typeof AuthenticatedContatosRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/precos': typeof PrecosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/assinatura': typeof AuthenticatedAssinaturaRoute
   '/_authenticated/contatos': typeof AuthenticatedContatosRoute
   '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
@@ -187,6 +196,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/precos'
     | '/reset-password'
+    | '/admin'
     | '/assinatura'
     | '/contatos'
     | '/favoritos'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/precos'
     | '/reset-password'
+    | '/admin'
     | '/assinatura'
     | '/contatos'
     | '/favoritos'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/precos'
     | '/reset-password'
+    | '/_authenticated/admin'
     | '/_authenticated/assinatura'
     | '/_authenticated/contatos'
     | '/_authenticated/favoritos'
@@ -288,6 +300,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/assinatura': {
       id: '/_authenticated/assinatura'
@@ -397,6 +416,7 @@ const AuthenticatedPainelRouteWithChildren =
   AuthenticatedPainelRoute._addFileChildren(AuthenticatedPainelRouteChildren)
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedAssinaturaRoute: typeof AuthenticatedAssinaturaRoute
   AuthenticatedContatosRoute: typeof AuthenticatedContatosRoute
   AuthenticatedFavoritosRoute: typeof AuthenticatedFavoritosRoute
@@ -408,6 +428,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedAssinaturaRoute: AuthenticatedAssinaturaRoute,
   AuthenticatedContatosRoute: AuthenticatedContatosRoute,
   AuthenticatedFavoritosRoute: AuthenticatedFavoritosRoute,
