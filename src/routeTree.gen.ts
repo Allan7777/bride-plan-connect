@@ -19,6 +19,7 @@ import { Route as AuthenticatedAssinaturaRouteImport } from './routes/_authentic
 import { Route as AuthenticatedContatosRouteImport } from './routes/_authenticated.contatos'
 import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated.favoritos'
 import { Route as AuthenticatedMeuCasamentoRouteImport } from './routes/_authenticated.meu-casamento'
+import { Route as AuthenticatedMeuPerfilRouteImport } from './routes/_authenticated.meu-perfil'
 import { Route as AuthenticatedNoivaRouteImport } from './routes/_authenticated.noiva'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated.onboarding'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated.painel'
@@ -78,6 +79,11 @@ const AuthenticatedMeuCasamentoRoute =
     path: '/meu-casamento',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedMeuPerfilRoute = AuthenticatedMeuPerfilRouteImport.update({
+  id: '/meu-perfil',
+  path: '/meu-perfil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedNoivaRoute = AuthenticatedNoivaRouteImport.update({
   id: '/noiva',
   path: '/noiva',
@@ -131,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/contatos': typeof AuthenticatedContatosRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
+  '/meu-perfil': typeof AuthenticatedMeuPerfilRoute
   '/noiva': typeof AuthenticatedNoivaRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/painel': typeof AuthenticatedPainelRouteWithChildren
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/contatos': typeof AuthenticatedContatosRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
+  '/meu-perfil': typeof AuthenticatedMeuPerfilRoute
   '/noiva': typeof AuthenticatedNoivaRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/painel': typeof AuthenticatedPainelRouteWithChildren
@@ -171,6 +179,7 @@ export interface FileRoutesById {
   '/_authenticated/contatos': typeof AuthenticatedContatosRoute
   '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
   '/_authenticated/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
+  '/_authenticated/meu-perfil': typeof AuthenticatedMeuPerfilRoute
   '/_authenticated/noiva': typeof AuthenticatedNoivaRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRouteWithChildren
@@ -192,6 +201,7 @@ export interface FileRouteTypes {
     | '/contatos'
     | '/favoritos'
     | '/meu-casamento'
+    | '/meu-perfil'
     | '/noiva'
     | '/onboarding'
     | '/painel'
@@ -211,6 +221,7 @@ export interface FileRouteTypes {
     | '/contatos'
     | '/favoritos'
     | '/meu-casamento'
+    | '/meu-perfil'
     | '/noiva'
     | '/onboarding'
     | '/painel'
@@ -231,6 +242,7 @@ export interface FileRouteTypes {
     | '/_authenticated/contatos'
     | '/_authenticated/favoritos'
     | '/_authenticated/meu-casamento'
+    | '/_authenticated/meu-perfil'
     | '/_authenticated/noiva'
     | '/_authenticated/onboarding'
     | '/_authenticated/painel'
@@ -324,6 +336,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedMeuCasamentoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/meu-perfil': {
+      id: '/_authenticated/meu-perfil'
+      path: '/meu-perfil'
+      fullPath: '/meu-perfil'
+      preLoaderRoute: typeof AuthenticatedMeuPerfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/noiva': {
       id: '/_authenticated/noiva'
       path: '/noiva'
@@ -402,6 +421,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedContatosRoute: typeof AuthenticatedContatosRoute
   AuthenticatedFavoritosRoute: typeof AuthenticatedFavoritosRoute
   AuthenticatedMeuCasamentoRoute: typeof AuthenticatedMeuCasamentoRoute
+  AuthenticatedMeuPerfilRoute: typeof AuthenticatedMeuPerfilRoute
   AuthenticatedNoivaRoute: typeof AuthenticatedNoivaRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRouteWithChildren
@@ -413,6 +433,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedContatosRoute: AuthenticatedContatosRoute,
   AuthenticatedFavoritosRoute: AuthenticatedFavoritosRoute,
   AuthenticatedMeuCasamentoRoute: AuthenticatedMeuCasamentoRoute,
+  AuthenticatedMeuPerfilRoute: AuthenticatedMeuPerfilRoute,
   AuthenticatedNoivaRoute: AuthenticatedNoivaRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRouteWithChildren,
