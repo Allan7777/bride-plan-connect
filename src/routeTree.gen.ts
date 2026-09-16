@@ -17,6 +17,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedMeuCasamentoRouteImport } from './routes/_authenticated.meu-casamento'
 import { Route as AuthenticatedNoivaRouteImport } from './routes/_authenticated.noiva'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated.onboarding'
+import { Route as FornecedorSlugRouteImport } from './routes/fornecedor.$slug'
 import { Route as FornecedoresIndexRouteImport } from './routes/fornecedores.index'
 import { Route as FornecedoresCategoriaRouteImport } from './routes/fornecedores.$categoria'
 
@@ -60,6 +61,11 @@ const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const FornecedorSlugRoute = FornecedorSlugRouteImport.update({
+  id: '/fornecedor/$slug',
+  path: '/fornecedor/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FornecedoresIndexRoute = FornecedoresIndexRouteImport.update({
   id: '/fornecedores/',
   path: '/fornecedores/',
@@ -79,6 +85,7 @@ export interface FileRoutesByFullPath {
   '/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
   '/noiva': typeof AuthenticatedNoivaRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores/': typeof FornecedoresIndexRoute
 }
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
   '/noiva': typeof AuthenticatedNoivaRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores': typeof FornecedoresIndexRoute
 }
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/_authenticated/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
   '/_authenticated/noiva': typeof AuthenticatedNoivaRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores/': typeof FornecedoresIndexRoute
 }
@@ -116,6 +125,7 @@ export interface FileRouteTypes {
     | '/meu-casamento'
     | '/noiva'
     | '/onboarding'
+    | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores/'
   fileRoutesByTo: FileRoutesByTo
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/meu-casamento'
     | '/noiva'
     | '/onboarding'
+    | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores'
   id:
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/_authenticated/meu-casamento'
     | '/_authenticated/noiva'
     | '/_authenticated/onboarding'
+    | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores/'
   fileRoutesById: FileRoutesById
@@ -149,6 +161,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   PrecosRoute: typeof PrecosRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  FornecedorSlugRoute: typeof FornecedorSlugRoute
   FornecedoresCategoriaRoute: typeof FornecedoresCategoriaRoute
   FornecedoresIndexRoute: typeof FornecedoresIndexRoute
 }
@@ -211,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/fornecedor/$slug': {
+      id: '/fornecedor/$slug'
+      path: '/fornecedor/$slug'
+      fullPath: '/fornecedor/$slug'
+      preLoaderRoute: typeof FornecedorSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fornecedores/': {
       id: '/fornecedores/'
       path: '/fornecedores'
@@ -249,6 +269,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   PrecosRoute: PrecosRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  FornecedorSlugRoute: FornecedorSlugRoute,
   FornecedoresCategoriaRoute: FornecedoresCategoriaRoute,
   FornecedoresIndexRoute: FornecedoresIndexRoute,
 }
