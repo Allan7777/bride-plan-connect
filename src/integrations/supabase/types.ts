@@ -86,6 +86,54 @@ export type Database = {
         }
         Relationships: []
       }
+      contacts: {
+        Row: {
+          bride_id: string
+          category_id: string | null
+          created_at: string
+          id: string
+          last_contact_at: string
+          notes: string | null
+          status: Database["public"]["Enums"]["lead_status"]
+          vendor_id: string
+        }
+        Insert: {
+          bride_id: string
+          category_id?: string | null
+          created_at?: string
+          id?: string
+          last_contact_at?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["lead_status"]
+          vendor_id: string
+        }
+        Update: {
+          bride_id?: string
+          category_id?: string | null
+          created_at?: string
+          id?: string
+          last_contact_at?: string
+          notes?: string | null
+          status?: Database["public"]["Enums"]["lead_status"]
+          vendor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contacts_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contacts_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       favorites: {
         Row: {
           created_at: string
@@ -273,6 +321,44 @@ export type Database = {
           type?: Database["public"]["Enums"]["user_type"]
         }
         Relationships: []
+      }
+      reports: {
+        Row: {
+          created_at: string
+          details: string | null
+          id: string
+          reason: string
+          reporter_id: string
+          status: string
+          vendor_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason: string
+          reporter_id: string
+          status?: string
+          vendor_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          details?: string | null
+          id?: string
+          reason?: string
+          reporter_id?: string
+          status?: string
+          vendor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reports_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       reviews: {
         Row: {

@@ -1,0 +1,10 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { Check } from "lucide-react";
+import { toast } from "sonner";
+import { AppShell } from "@/components/app-shell";
+import { AccountGuard } from "@/components/account-guard";
+import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { PRICE_BRL } from "@/lib/noivahub";
+export const Route=createFileRoute("/_authenticated/assinatura")({head:()=>({meta:[{title:"Minha assinatura — NoivaHub"},{name:"description",content:"Consulte e gerencie seu plano NoivaHub."},{property:"og:title",content:"Minha assinatura — NoivaHub"},{property:"og:description",content:"Seu plano NoivaHub por R$ 10,90 ao mês."}]}),component:Subscription});function Subscription(){const{user}=Route.useRouteContext();const{data}=useQuery({queryKey:["subscription",user.id],queryFn:async()=>{const{data}=await supabase.from("subscriptions").select("*").eq("user_id",user.id).order("created_at",{ascending:false}).limit(1).maybeSingle();return data}});return <AccountGuard>{a=><AppShell type={a.profile?.type??"bride"}><div className="mx-auto max-w-3xl p-5 md:p-10"><h1 className="font-display text-4xl">Minha assinatura</h1><div className="surface mt-6 p-7"><p className="text-sm uppercase text-muted-foreground">Plano {a.profile?.type==="vendor"?"Fornecedor":"Noiva"}</p><p className="mt-2 font-display text-5xl">{PRICE_BRL}<span className="font-sans text-base text-muted-foreground">/mês</span></p><p className="mt-3 text-sm">Status: <strong>{data?.status==="active"?"Ativa":data?.status==="trialing"?"Período de teste":"Ainda não assinada"}</strong></p><div className="mt-6 space-y-2 text-sm">{["Acesso completo à plataforma","Cancele quando quiser","Suporte por e-mail"].map(x=><p key={x} className="flex gap-2"><Check className="size-4 text-gold"/>{x}</p>)}</div><Button className="mt-7 w-full" onClick={()=>toast.info("A ativação do pagamento seguro está na próxima etapa.")}>{data?.status==="active"?"Gerenciar assinatura":"Assinar agora"}</Button></div></div></AppShell>}</AccountGuard>}

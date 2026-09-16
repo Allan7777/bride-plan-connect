@@ -10,15 +10,31 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as PrecosRouteImport } from './routes/precos'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedAssinaturaRouteImport } from './routes/_authenticated.assinatura'
+import { Route as AuthenticatedContatosRouteImport } from './routes/_authenticated.contatos'
+import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated.favoritos'
+import { Route as AuthenticatedMeuCasamentoRouteImport } from './routes/_authenticated.meu-casamento'
+import { Route as AuthenticatedMeuPerfilRouteImport } from './routes/_authenticated.meu-perfil'
+import { Route as AuthenticatedNoivaRouteImport } from './routes/_authenticated.noiva'
+import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated.onboarding'
+import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated.painel'
+import { Route as FornecedorSlugRouteImport } from './routes/fornecedor.$slug'
 import { Route as FornecedoresIndexRouteImport } from './routes/fornecedores.index'
 import { Route as FornecedoresCategoriaRouteImport } from './routes/fornecedores.$categoria'
+import { Route as AuthenticatedPainelLeadsRouteImport } from './routes/_authenticated.painel.leads'
+import { Route as AuthenticatedPainelPerfilRouteImport } from './routes/_authenticated.painel.perfil'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -36,6 +52,52 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAssinaturaRoute = AuthenticatedAssinaturaRouteImport.update({
+  id: '/assinatura',
+  path: '/assinatura',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedContatosRoute = AuthenticatedContatosRouteImport.update({
+  id: '/contatos',
+  path: '/contatos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedFavoritosRoute = AuthenticatedFavoritosRouteImport.update({
+  id: '/favoritos',
+  path: '/favoritos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMeuCasamentoRoute =
+  AuthenticatedMeuCasamentoRouteImport.update({
+    id: '/meu-casamento',
+    path: '/meu-casamento',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedMeuPerfilRoute = AuthenticatedMeuPerfilRouteImport.update({
+  id: '/meu-perfil',
+  path: '/meu-perfil',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNoivaRoute = AuthenticatedNoivaRouteImport.update({
+  id: '/noiva',
+  path: '/noiva',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const FornecedorSlugRoute = FornecedorSlugRouteImport.update({
+  id: '/fornecedor/$slug',
+  path: '/fornecedor/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FornecedoresIndexRoute = FornecedoresIndexRouteImport.update({
   id: '/fornecedores/',
   path: '/fornecedores/',
@@ -46,31 +108,77 @@ const FornecedoresCategoriaRoute = FornecedoresCategoriaRouteImport.update({
   path: '/fornecedores/$categoria',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedPainelLeadsRoute =
+  AuthenticatedPainelLeadsRouteImport.update({
+    id: '/leads',
+    path: '/leads',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPainelPerfilRoute =
+  AuthenticatedPainelPerfilRouteImport.update({
+    id: '/perfil',
+    path: '/perfil',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/precos': typeof PrecosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/assinatura': typeof AuthenticatedAssinaturaRoute
+  '/contatos': typeof AuthenticatedContatosRoute
+  '/favoritos': typeof AuthenticatedFavoritosRoute
+  '/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
+  '/meu-perfil': typeof AuthenticatedMeuPerfilRoute
+  '/noiva': typeof AuthenticatedNoivaRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/painel': typeof AuthenticatedPainelRouteWithChildren
+  '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores/': typeof FornecedoresIndexRoute
+  '/painel/leads': typeof AuthenticatedPainelLeadsRoute
+  '/painel/perfil': typeof AuthenticatedPainelPerfilRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/precos': typeof PrecosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/assinatura': typeof AuthenticatedAssinaturaRoute
+  '/contatos': typeof AuthenticatedContatosRoute
+  '/favoritos': typeof AuthenticatedFavoritosRoute
+  '/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
+  '/meu-perfil': typeof AuthenticatedMeuPerfilRoute
+  '/noiva': typeof AuthenticatedNoivaRoute
+  '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/painel': typeof AuthenticatedPainelRouteWithChildren
+  '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores': typeof FornecedoresIndexRoute
+  '/painel/leads': typeof AuthenticatedPainelLeadsRoute
+  '/painel/perfil': typeof AuthenticatedPainelPerfilRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/precos': typeof PrecosRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/assinatura': typeof AuthenticatedAssinaturaRoute
+  '/_authenticated/contatos': typeof AuthenticatedContatosRoute
+  '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
+  '/_authenticated/meu-casamento': typeof AuthenticatedMeuCasamentoRoute
+  '/_authenticated/meu-perfil': typeof AuthenticatedMeuPerfilRoute
+  '/_authenticated/noiva': typeof AuthenticatedNoivaRoute
+  '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/_authenticated/painel': typeof AuthenticatedPainelRouteWithChildren
+  '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores/': typeof FornecedoresIndexRoute
+  '/_authenticated/painel/leads': typeof AuthenticatedPainelLeadsRoute
+  '/_authenticated/painel/perfil': typeof AuthenticatedPainelPerfilRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -79,31 +187,67 @@ export interface FileRouteTypes {
     | '/auth'
     | '/precos'
     | '/reset-password'
+    | '/assinatura'
+    | '/contatos'
+    | '/favoritos'
+    | '/meu-casamento'
+    | '/meu-perfil'
+    | '/noiva'
+    | '/onboarding'
+    | '/painel'
+    | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores/'
+    | '/painel/leads'
+    | '/painel/perfil'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/precos'
     | '/reset-password'
+    | '/assinatura'
+    | '/contatos'
+    | '/favoritos'
+    | '/meu-casamento'
+    | '/meu-perfil'
+    | '/noiva'
+    | '/onboarding'
+    | '/painel'
+    | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores'
+    | '/painel/leads'
+    | '/painel/perfil'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/auth'
     | '/precos'
     | '/reset-password'
+    | '/_authenticated/assinatura'
+    | '/_authenticated/contatos'
+    | '/_authenticated/favoritos'
+    | '/_authenticated/meu-casamento'
+    | '/_authenticated/meu-perfil'
+    | '/_authenticated/noiva'
+    | '/_authenticated/onboarding'
+    | '/_authenticated/painel'
+    | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores/'
+    | '/_authenticated/painel/leads'
+    | '/_authenticated/painel/perfil'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   PrecosRoute: typeof PrecosRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  FornecedorSlugRoute: typeof FornecedorSlugRoute
   FornecedoresCategoriaRoute: typeof FornecedoresCategoriaRoute
   FornecedoresIndexRoute: typeof FornecedoresIndexRoute
 }
@@ -115,6 +259,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -138,6 +289,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/assinatura': {
+      id: '/_authenticated/assinatura'
+      path: '/assinatura'
+      fullPath: '/assinatura'
+      preLoaderRoute: typeof AuthenticatedAssinaturaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/contatos': {
+      id: '/_authenticated/contatos'
+      path: '/contatos'
+      fullPath: '/contatos'
+      preLoaderRoute: typeof AuthenticatedContatosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/favoritos': {
+      id: '/_authenticated/favoritos'
+      path: '/favoritos'
+      fullPath: '/favoritos'
+      preLoaderRoute: typeof AuthenticatedFavoritosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/meu-casamento': {
+      id: '/_authenticated/meu-casamento'
+      path: '/meu-casamento'
+      fullPath: '/meu-casamento'
+      preLoaderRoute: typeof AuthenticatedMeuCasamentoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/meu-perfil': {
+      id: '/_authenticated/meu-perfil'
+      path: '/meu-perfil'
+      fullPath: '/meu-perfil'
+      preLoaderRoute: typeof AuthenticatedMeuPerfilRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/noiva': {
+      id: '/_authenticated/noiva'
+      path: '/noiva'
+      fullPath: '/noiva'
+      preLoaderRoute: typeof AuthenticatedNoivaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/onboarding': {
+      id: '/_authenticated/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/painel': {
+      id: '/_authenticated/painel'
+      path: '/painel'
+      fullPath: '/painel'
+      preLoaderRoute: typeof AuthenticatedPainelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/fornecedor/$slug': {
+      id: '/fornecedor/$slug'
+      path: '/fornecedor/$slug'
+      fullPath: '/fornecedor/$slug'
+      preLoaderRoute: typeof FornecedorSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fornecedores/': {
       id: '/fornecedores/'
       path: '/fornecedores'
@@ -152,14 +366,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FornecedoresCategoriaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/painel/leads': {
+      id: '/_authenticated/painel/leads'
+      path: '/leads'
+      fullPath: '/painel/leads'
+      preLoaderRoute: typeof AuthenticatedPainelLeadsRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/painel/perfil': {
+      id: '/_authenticated/painel/perfil'
+      path: '/perfil'
+      fullPath: '/painel/perfil'
+      preLoaderRoute: typeof AuthenticatedPainelPerfilRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
   }
 }
 
+interface AuthenticatedPainelRouteChildren {
+  AuthenticatedPainelLeadsRoute: typeof AuthenticatedPainelLeadsRoute
+  AuthenticatedPainelPerfilRoute: typeof AuthenticatedPainelPerfilRoute
+}
+
+const AuthenticatedPainelRouteChildren: AuthenticatedPainelRouteChildren = {
+  AuthenticatedPainelLeadsRoute: AuthenticatedPainelLeadsRoute,
+  AuthenticatedPainelPerfilRoute: AuthenticatedPainelPerfilRoute,
+}
+
+const AuthenticatedPainelRouteWithChildren =
+  AuthenticatedPainelRoute._addFileChildren(AuthenticatedPainelRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAssinaturaRoute: typeof AuthenticatedAssinaturaRoute
+  AuthenticatedContatosRoute: typeof AuthenticatedContatosRoute
+  AuthenticatedFavoritosRoute: typeof AuthenticatedFavoritosRoute
+  AuthenticatedMeuCasamentoRoute: typeof AuthenticatedMeuCasamentoRoute
+  AuthenticatedMeuPerfilRoute: typeof AuthenticatedMeuPerfilRoute
+  AuthenticatedNoivaRoute: typeof AuthenticatedNoivaRoute
+  AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
+  AuthenticatedPainelRoute: typeof AuthenticatedPainelRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAssinaturaRoute: AuthenticatedAssinaturaRoute,
+  AuthenticatedContatosRoute: AuthenticatedContatosRoute,
+  AuthenticatedFavoritosRoute: AuthenticatedFavoritosRoute,
+  AuthenticatedMeuCasamentoRoute: AuthenticatedMeuCasamentoRoute,
+  AuthenticatedMeuPerfilRoute: AuthenticatedMeuPerfilRoute,
+  AuthenticatedNoivaRoute: AuthenticatedNoivaRoute,
+  AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
+  AuthenticatedPainelRoute: AuthenticatedPainelRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   PrecosRoute: PrecosRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  FornecedorSlugRoute: FornecedorSlugRoute,
   FornecedoresCategoriaRoute: FornecedoresCategoriaRoute,
   FornecedoresIndexRoute: FornecedoresIndexRoute,
 }

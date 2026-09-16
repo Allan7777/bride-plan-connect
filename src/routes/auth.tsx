@@ -105,11 +105,44 @@ function AuthPage() {
           password: form.password,
         });
         if (error) throw error;
-        const { data: profile } = await supabase
+        let { data: profile } = await supabase
           .from("profiles")
           .select("type")
           .eq("id", data.user.id)
           .maybeSingle();
+        if (!profile) {
+          const accountType = data.user.user_metadata["type"] === "vendor" ? "vendor" : "bride";
+          const fullName = String(data.user.user_metadata["full_name"] ?? data.user.email ?? "Minha conta");
+          const { data: created } = await supabase
+            .from("profiles")
+            .insert({
+              id: data.user.id,
+              email: data.user.email ?? null,
+              full_name: fullName,
+              type: accountType,
+              referral_code: `${slugify(fullName).slice(0, 10).toUpperCase()}${data.user.id.slice(0, 4).toUpperCase()}`,
+            })
+            .select("type")
+            .single();
+          profile = created;
+          await supabase.from("subscriptions").insert({
+            user_id: data.user.id,
+            plan: accountType,
+            status: "none",
+          });
+          if (accountType === "vendor") {
+            await supabase.from("vendors").insert({
+              user_id: data.user.id,
+              company_name: fullName,
+              owner_name: fullName,
+              email: data.user.email ?? null,
+              slug: `${slugify(fullName)}-${data.user.id.slice(0, 6)}`,
+              status: "pendente",
+            });
+          } else {
+            await supabase.from("brides").insert({ id: data.user.id });
+          }
+        }
         navigate({ to: profile?.type === "vendor" ? "/painel" : "/noiva" });
       }
     } catch (err) {

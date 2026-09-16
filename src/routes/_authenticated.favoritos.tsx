@@ -1,0 +1,8 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { AppShell } from "@/components/app-shell";
+import { AccountGuard } from "@/components/account-guard";
+import { Button } from "@/components/ui/button";
+import { VendorCard } from "@/components/vendor-card";
+import { supabase } from "@/integrations/supabase/client";
+export const Route=createFileRoute("/_authenticated/favoritos")({head:()=>({meta:[{title:"Meus favoritos — NoivaHub"},{name:"description",content:"Compare e acompanhe seus fornecedores favoritos."},{property:"og:title",content:"Meus favoritos — NoivaHub"},{property:"og:description",content:"Seus fornecedores de casamento favoritos."}]}),component:Favorites});function Favorites(){const{user}=Route.useRouteContext();const{data=[]}=useQuery({queryKey:["favorites-page",user.id],queryFn:async()=>{const{data}=await supabase.from("favorites").select("vendor_id,vendors(*,categories:primary_category_id(name,slug,emoji))").eq("user_id",user.id);return(data??[]).map(x=>x.vendors).filter(v=>v!==null)}});return <AccountGuard type="bride">{()=> <AppShell type="bride"><div className="mx-auto max-w-6xl p-5 md:p-10"><h1 className="font-display text-4xl">Meus favoritos</h1><p className="mt-2 text-muted-foreground">Guarde os profissionais que combinam com o seu casamento.</p>{data.length?<div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{data.map(v=><VendorCard key={v.id} vendor={v}/>)}</div>:<div className="surface mt-6 p-10 text-center"><p className="font-display text-2xl">Nenhum favorito ainda</p><Button asChild className="mt-4"><Link to="/fornecedores">Explorar fornecedores</Link></Button></div>}</div></AppShell>}</AccountGuard>}
