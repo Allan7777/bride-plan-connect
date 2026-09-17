@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { Bell, Heart, Home, Images, ListChecks, LogOut, Search, Store, UserRound, WalletCards } from "lucide-react";
+import { Bell, Heart, Home, ListChecks, LogOut, Search, Store, UserRound, WalletCards } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -17,8 +17,7 @@ const brideLinks = [
 const vendorLinks = [
   { to: "/painel", label: "Dashboard", icon: Home },
   { to: "/painel/leads", label: "Leads", icon: Bell },
-  { to: "/painel/perfil", label: "Perfil", icon: Store },
-  { to: "/painel/perfil", label: "Portfólio", icon: Images },
+  { to: "/painel/perfil", label: "Perfil e portfólio", icon: Store },
   { to: "/assinatura", label: "Assinatura", icon: WalletCards },
 ] as const;
 
