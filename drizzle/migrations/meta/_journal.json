@@ -29,6 +29,13 @@
       "when": 1789520505960,
       "tag": "0003_vendor_portfolio_and_analytics",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1789603226083,
+      "tag": "0004_portfolio_private_read_policy",
+      "breakpoints": true
     }
   ]
 }

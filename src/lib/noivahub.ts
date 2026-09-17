@@ -61,3 +61,7 @@ export function slugify(value: string) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 }
+
+export function vendorPriceLabel(priceFrom?: number | null) {
+  return priceFrom == null ? "Consulte o fornecedor" : `A partir de ${brl(priceFrom)}`;
+}
