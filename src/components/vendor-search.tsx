@@ -89,7 +89,15 @@ export function VendorSearch({ initialCategory }: { initialCategory?: string }) 
     if (favoriteSet.has(vendorId)) {
       await supabase.from("favorites").delete().eq("vendor_id", vendorId).eq("user_id", user.id);
     } else {
-      await supabase.from("favorites").insert({ vendor_id: vendorId, user_id: user.id });
+      const { error } = await supabase.from("favorites").insert({ vendor_id: vendorId, user_id: user.id });
+      if (error) { toast.error(error.message); return; }
+      const vendor = vendors?.find((item) => item.id === vendorId);
+      await supabase.rpc("track_vendor_event", {
+        _vendor_id: vendorId,
+        _event_type: "favorite",
+        ...(vendor?.primary_category_id ? { _category_id: vendor.primary_category_id } : {}),
+        _source: "marketplace",
+      });
       toast.success("Fornecedor salvo nos favoritos.");
     }
     queryClient.invalidateQueries({ queryKey: ["favorites"] });
