@@ -26,7 +26,7 @@ function VendorProfile(){
   const {user}=useSession();
   const [lightbox,setLightbox]=useState<number|null>(null);
   const {data:v}=useQuery({queryKey:["vendor",slug],queryFn:async()=>{const {data,error}=await supabase.from("vendors").select("*,categories:primary_category_id(id,name,emoji),vendor_services(*),vendor_photos(*)").eq("slug",slug).eq("status","aprovado").single();if(error)throw error;const photos=await Promise.all((data.vendor_photos??[]).sort((a,b)=>a.sort_order-b.sort_order).map(async(photo)=>{if(!photo.storage_path)return{...photo,displayUrl:photo.url};const{data:signed}=await supabase.storage.from(PORTFOLIO_BUCKET).createSignedUrl(photo.storage_path,3600);return{...photo,displayUrl:signed?.signedUrl??photo.url}}));return{...data,photos};}});
-  useEffect(()=>{if(!v)return;const key=`noivahub:view:${v.id}`;if(sessionStorage.getItem(key))return;sessionStorage.setItem(key,"1");supabase.rpc("track_vendor_event",{_vendor_id:v.id,_event_type:"profile_view",_category_id:v.primary_category_id??undefined,_source:"perfil_fornecedor"}).then(()=>undefined);},[v]);
+  useEffect(()=>{if(!v)return;const key=`noivahub:view:${v.id}`;if(sessionStorage.getItem(key))return;sessionStorage.setItem(key,"1");supabase.rpc("track_vendor_event",{_vendor_id:v.id,_event_type:"profile_view",...(v.primary_category_id?{_category_id:v.primary_category_id}:{}),_source:"perfil_fornecedor"}).then(()=>undefined);},[v]);
   const cover=useMemo(()=>v?.photos.find(photo=>photo.is_cover)?.displayUrl??v?.photos[0]?.displayUrl??v?.cover_url??null,[v]);
   const continueToWhatsapp=useCallback(async()=>{
     if(!v?.whatsapp){toast.error("Este fornecedor ainda não cadastrou um WhatsApp para orçamentos.");return;}
@@ -39,12 +39,13 @@ function VendorProfile(){
     if(profile?.type==="bride"&&profile.city)lines.push(`A cidade é ${profile.city}${profile.state?` - ${profile.state}`:""}.`);
     lines.push("Gostaria de receber informações sobre valores e disponibilidade.");
     const message=lines.join("\n\n").slice(0,1000);
-    await supabase.rpc("track_vendor_event",{_vendor_id:v.id,_event_type:"budget_request",_category_id:v.primary_category_id??undefined,_source:"perfil_fornecedor"});
+    const eventContext={_vendor_id:v.id,...(v.primary_category_id?{_category_id:v.primary_category_id}:{}),_source:"perfil_fornecedor"};
+    await supabase.rpc("track_vendor_event",{...eventContext,_event_type:"budget_request"});
     if(user&&profile?.type==="bride"){
       const{error}=await supabase.from("leads").insert({vendor_id:v.id,bride_id:user.id,category_id:v.primary_category_id,bride_name:profile.full_name,city:profile.city,state:profile.state,wedding_date:weddingDate,message});
-      if(!error){await Promise.all([supabase.rpc("track_vendor_event",{_vendor_id:v.id,_event_type:"lead_created",_category_id:v.primary_category_id??undefined,_source:"perfil_fornecedor"}),supabase.from("contacts").upsert({vendor_id:v.id,bride_id:user.id,category_id:v.primary_category_id,notes:message,last_contact_at:new Date().toISOString()},{onConflict:"bride_id,vendor_id"})]);}
+      if(!error){await Promise.all([supabase.rpc("track_vendor_event",{...eventContext,_event_type:"lead_created"}),supabase.from("contacts").upsert({vendor_id:v.id,bride_id:user.id,category_id:v.primary_category_id,notes:message,last_contact_at:new Date().toISOString()},{onConflict:"bride_id,vendor_id"})]);}
     }
-    await supabase.rpc("track_vendor_event",{_vendor_id:v.id,_event_type:"whatsapp_click",_category_id:v.primary_category_id??undefined,_source:"perfil_fornecedor"});
+    await supabase.rpc("track_vendor_event",{...eventContext,_event_type:"whatsapp_click"});
     window.open(`https://wa.me/${v.whatsapp}?text=${encodeURIComponent(message)}`,"_blank","noopener,noreferrer");
   },[user,v]);
   if(!v)return <div className="p-10">Carregando...</div>;
