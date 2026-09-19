@@ -6,26 +6,7 @@ const corsHeaders = {
   Vary: "Origin",
 };
 
-type Place = {
-  id: string;
-  name: string;
-  address: string;
-  phone?: string;
-  website?: string;
-  lat: number;
-  lon: number;
-};
-
-type OsmElement = {
-  id: number;
-  type: string;
-  lat?: number;
-  lon?: number;
-  center?: { lat?: number; lon?: number };
-  tags?: Record<string, string>;
-};
-
-function jsonResponse(body: unknown, status = 200) {
+function jsonResponse(body, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
     headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -75,7 +56,7 @@ Deno.serve(async (req) => {
       "https://overpass-api.de/api/interpreter",
       "https://overpass.kumi.systems/api/interpreter",
     ];
-    let elements: OsmElement[] | undefined;
+    let elements;
 
     for (const endpoint of endpoints) {
       try {
@@ -101,7 +82,7 @@ Deno.serve(async (req) => {
     if (!elements) throw new Error("Serviço de locais indisponível");
 
     const places = elements
-      .map((element): Place | undefined => {
+      .map((element) => {
         const tags = element.tags ?? {};
         const lat = element.lat ?? element.center?.lat;
         const lon = element.lon ?? element.center?.lon;
@@ -117,11 +98,11 @@ Deno.serve(async (req) => {
               .join(", ") || normalizedCity,
           phone: tags.phone || tags["contact:phone"],
           website: tags.website || tags["contact:website"],
-          lat: lat as number,
-          lon: lon as number,
+          lat,
+          lon,
         };
       })
-      .filter((place): place is Place => Boolean(place));
+      .filter(Boolean);
 
     const unique = Array.from(
       new Map(places.map((place) => [place.name.toLowerCase(), place])).values(),
