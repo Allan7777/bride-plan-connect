@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ExternalLink, MapPin, Phone, Search, Store } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { supabase } from "@/integrations/supabase/client";
 
 type Place={id:string;name:string;address:string;phone?:string;website?:string;lat:number;lon:number};
 export function AutomaticSupplierSearch({category}:{category:"espaco"|"vestido"}){
@@ -9,21 +10,11 @@ export function AutomaticSupplierSearch({category}:{category:"espaco"|"vestido"}
  async function search(){
   if(city.trim().length<2)return; setLoading(true);setError("");setSearched(true);
   try{
-   const geo=await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=br&q="+encodeURIComponent(city.trim()+", Brasil"),{headers:{"Accept-Language":"pt-BR"}});
-   const g=await geo.json(); if(!g?.[0])throw new Error("Cidade não encontrada.");
-   const [s,w,n,e]=g[0].boundingbox.map(Number);
-   const filter=category==="vestido"
-    ? '[shop~"clothes|fashion|bridal"]'
-    : '[amenity~"events_venue|community_centre|conference_centre"]';
-   const nameFilter=category==="vestido"?'["name"~"noiva|noivas|bridal|casamento|vestido",i]':'';
-   const q='[out:json][timeout:20];(nwr'+filter+nameFilter+'('+s+','+w+','+n+','+e+'););out center tags 40;';
-   const res=await fetch("https://overpass-api.de/api/interpreter",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"data="+encodeURIComponent(q)});
-   if(!res.ok)throw new Error("A busca automática está temporariamente indisponível.");
-   const json=await res.json();
-   const rows=(json.elements??[]).map((x:any)=>{const t=x.tags??{};const lat=x.lat??x.center?.lat,lon=x.lon??x.center?.lon;const address=[t["addr:street"],t["addr:housenumber"],t["addr:suburb"],t["addr:city"]].filter(Boolean).join(", ");return{id:String(x.type)+x.id,name:t.name,address:address||city.trim(),phone:t.phone||t["contact:phone"],website:t.website||t["contact:website"],lat,lon}}).filter((x:Place)=>x.name&&Number.isFinite(x.lat)&&Number.isFinite(x.lon));
-   const unique=Array.from(new Map(rows.map((x:Place)=>[x.name.toLowerCase(),x])).values()) as Place[];
-   setPlaces(unique.slice(0,24));
-  }catch(e){setPlaces([]);setError(e instanceof Error?e.message:"Não foi possível buscar agora.");}finally{setLoading(false)}
+   const {data,error}=await supabase.functions.invoke("search-wedding-places",{body:{city:city.trim(),category}});
+   if(error) throw error;
+   if(data?.error) throw new Error(data.error);
+   setPlaces((data?.places??[]) as Place[]);
+  }catch(e){setPlaces([]);setError("Não foi possível buscar agora. Tente novamente em alguns instantes.");}finally{setLoading(false)}
  }
  const title=category==="vestido"?"lojas de vestidos de noiva":"espaços para casamento";
  return <div className="mt-8">
