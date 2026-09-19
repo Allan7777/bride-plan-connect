@@ -18,6 +18,7 @@ import { VendorCompare } from "@/components/vendor-compare";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/useAuth";
 import { UF } from "@/lib/noivahub";
+import { AutomaticSupplierSearch } from "@/components/automatic-supplier-search";
 
 export function VendorSearch({ initialCategory }: { initialCategory?: string }) {
   const { user } = useSession();
@@ -29,6 +30,7 @@ export function VendorSearch({ initialCategory }: { initialCategory?: string }) 
   const [maxPrice, setMaxPrice] = useState(40000);
   const [minRating, setMinRating] = useState("0");
   const [compare, setCompare] = useState<string[]>([]);
+  const automaticCategory = category === "espaco" || category === "vestido";
 
   const { data: categories } = useQuery({
     queryKey: ["categories"],
@@ -111,6 +113,8 @@ export function VendorSearch({ initialCategory }: { initialCategory?: string }) 
       prev.includes(id) ? prev.filter((i) => i !== id) : prev.length >= 3 ? prev : [...prev, id],
     );
   }
+
+  if (automaticCategory) return <AutomaticSupplierSearch category={category as "espaco"|"vestido"} />;
 
   return (
     <div className="mt-8">
