@@ -10,8 +10,8 @@
 - [x] Painel do fornecedor, funil de leads e editor de perfil
 - [x] Assinatura preparada e controle de status
 - [x] Administração e aprovação de fornecedores
-- [ ] Vitrine profissional: portfólio, capa, descrição e WhatsApp
-- [ ] Métricas de perfil, consultas e resultados do fornecedor
-- [ ] Moderação administrativa de imagens
+- [x] Vitrine profissional: portfólio, capa, descrição e WhatsApp
+- [x] Métricas de perfil, consultas e resultados do fornecedor
+- [x] Moderação administrativa de imagens
 - [ ] Ativar Stripe e criar checkout após confirmação do proprietário
 - [ ] Publicar após aprovação final
