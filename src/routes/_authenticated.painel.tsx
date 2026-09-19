@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import { ArrowRight, Eye, Heart, Images, MessageCircle, MousePointer2, Store, TrendingUp } from "lucide-react";
@@ -10,7 +10,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { VENDOR_STATUS_LABELS } from "@/lib/noivahub";
 
 export const Route=createFileRoute("/_authenticated/painel")({head:()=>({meta:[{title:"Painel do fornecedor — NoivaHub"},{name:"description",content:"Acompanhe seu perfil, portfólio, consultas e desempenho no NoivaHub."}]}),component:Painel});
-function Painel(){return <AccountGuard type="vendor">{account=><Vendor account={account}/>}</AccountGuard>}
+function Painel(){
+  const location=useLocation();
+  if(location.pathname!=="/painel"&&location.pathname!=="/painel/") return <Outlet/>;
+  return <AccountGuard type="vendor">{account=><Vendor account={account}/>}</AccountGuard>
+}
 const chartConfig={views:{label:"Visualizações",color:"#10b981"},requests:{label:"Consultas",color:"#0f172a"}} satisfies ChartConfig;
 
 function Vendor({account}:{account:NonNullable<ReturnType<typeof import("@/hooks/useAuth").useAccount>["data"]>}){
