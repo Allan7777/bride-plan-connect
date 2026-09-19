@@ -1,0 +1,6 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { AccountGuard } from "@/components/account-guard";
+import { AppShell } from "@/components/app-shell";
+import { Button } from "@/components/ui/button";
+export const Route=createFileRoute("/_authenticated/painel/configuracoes")({component:Page});
+function Page(){return <AccountGuard type="vendor">{()=> <AppShell type="vendor"><div className="mx-auto max-w-4xl p-5 md:p-10"><h1 className="text-4xl font-extrabold">Configurações</h1><p className="mt-2 text-slate-600">Gerencie as principais configurações da sua conta profissional.</p><div className="mt-8 grid gap-4"><section className="rounded-2xl border bg-white p-6"><h2 className="text-xl font-bold">Perfil da empresa</h2><p className="mt-1 text-sm text-slate-500">Nome, contato, descrição, WhatsApp e informações exibidas às noivas.</p><Button asChild className="mt-4"><Link to="/painel/perfil">Editar perfil</Link></Button></section><section className="rounded-2xl border bg-white p-6"><h2 className="text-xl font-bold">Plano e assinatura</h2><p className="mt-1 text-sm text-slate-500">Consulte as informações do seu plano no NoivaHub.</p><Button asChild variant="outline" className="mt-4"><Link to="/assinatura">Ver assinatura</Link></Button></section></div></div></AppShell>}</AccountGuard>}
