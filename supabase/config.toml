@@ -1,4 +1,4 @@
-project_id = "yysbiznpzxsxbeulytqx"
+project_id = "tjjrtlaejvvxkwujgabx"
 
 # Public search endpoint used by the supplier catalogue. It does not access
 # user data and must also work for visitors who are not signed in.
