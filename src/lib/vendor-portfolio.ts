@@ -14,15 +14,15 @@ export type WorkBlock = {
 
 export function parseWorkBlocks(value: Json | null | undefined): WorkBlock[] {
   if (!value || typeof value !== "object" || Array.isArray(value)) return [];
-  const blocks = "blocks" in value && Array.isArray(value.blocks) ? value.blocks : [];
+  const blocks = "blocks" in value && Array.isArray(value["blocks"]) ? value["blocks"] : [];
   return blocks.flatMap((block) => {
     if (!block || typeof block !== "object" || Array.isArray(block)) return [];
-    const text = typeof block.text === "string" ? block.text.trim().slice(0, 600) : "";
+    const text = typeof block["text"] === "string" ? block["text"].trim().slice(0, 600) : "";
     if (!text) return [];
     return [{
-      type: block.type === "list" ? "list" : "paragraph",
+      type: block["type"] === "list" ? "list" : "paragraph",
       text,
-      bold: block.bold === true,
+      bold: block["bold"] === true,
     } satisfies WorkBlock];
   }).slice(0, 20);
 }

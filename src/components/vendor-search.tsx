@@ -62,7 +62,10 @@ export function VendorSearch({ initialCategory }: { initialCategory?: string }) 
       const { data, error } = await q;
       if (error) throw error;
       const rows = (data ?? []) as unknown as Array<
-        Parameters<typeof VendorCard>[0]["vendor"] & { categories: { slug: string } | null }
+        Parameters<typeof VendorCard>[0]["vendor"] & {
+          primary_category_id: string | null;
+          categories: { slug: string } | null;
+        }
       >;
       return category === "todas"
         ? rows
