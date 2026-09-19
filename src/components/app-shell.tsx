@@ -44,6 +44,7 @@ export function AppShell({ type, children }: { type: "bride" | "vendor"; childre
         <nav className={vendor ? "mt-10 space-y-2" : "mt-10 space-y-1"}>
           {links.map((item) => (
             <Link key={item.to} to={item.to}
+              activeOptions={{ exact: true }}
               className={vendor ? "flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-900 hover:text-white" : "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"}
               activeProps={{ className: vendor ? "flex items-center gap-3 rounded-xl bg-emerald-400 px-4 py-3 text-sm font-semibold text-slate-950" : "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm bg-sidebar-accent text-sidebar-accent-foreground font-medium" }}>
               <item.icon className="size-4" /> {item.label}
@@ -58,6 +59,7 @@ export function AppShell({ type, children }: { type: "bride" | "vendor"; childre
       <nav className={vendor ? "fixed inset-x-0 bottom-0 z-40 flex h-16 items-center justify-around border-t border-slate-800 bg-slate-950 px-2 text-white lg:hidden" : "fixed inset-x-0 bottom-0 z-40 flex h-16 items-center justify-around border-t border-border bg-background/95 px-2 backdrop-blur lg:hidden"}>
         {links.slice(0, 5).map((item) => (
           <Link key={item.to} to={item.to}
+            activeOptions={{ exact: true }}
             className={vendor ? "flex min-w-16 flex-col items-center gap-1 text-[10px] text-slate-400" : "flex min-w-14 flex-col items-center gap-1 text-[10px] text-muted-foreground"}
             activeProps={{ className: vendor ? "flex min-w-16 flex-col items-center gap-1 text-[10px] font-semibold text-emerald-400" : "flex min-w-14 flex-col items-center gap-1 text-[10px] text-foreground" }}>
             <item.icon className="size-5" /> {item.label}
