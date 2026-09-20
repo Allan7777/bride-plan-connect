@@ -26,7 +26,9 @@ import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated
 import { Route as FornecedorSlugRouteImport } from './routes/fornecedor.$slug'
 import { Route as FornecedoresIndexRouteImport } from './routes/fornecedores.index'
 import { Route as FornecedoresCategoriaRouteImport } from './routes/fornecedores.$categoria'
-import { Route as AuthenticatedPainelLeadsRouteImport } from './routes/_authenticated.painel.leads'\nimport { Route as AuthenticatedPainelEstatisticasRouteImport } from './routes/_authenticated.painel.estatisticas'\nimport { Route as AuthenticatedPainelConfiguracoesRouteImport } from './routes/_authenticated.painel.configuracoes'
+import { Route as AuthenticatedPainelConfiguracoesRouteImport } from './routes/_authenticated.painel.configuracoes'
+import { Route as AuthenticatedPainelEstatisticasRouteImport } from './routes/_authenticated.painel.estatisticas'
+import { Route as AuthenticatedPainelLeadsRouteImport } from './routes/_authenticated.painel.leads'
 import { Route as AuthenticatedPainelPerfilRouteImport } from './routes/_authenticated.painel.perfil'
 
 const IndexRoute = IndexRouteImport.update({
@@ -114,13 +116,25 @@ const FornecedoresCategoriaRoute = FornecedoresCategoriaRouteImport.update({
   path: '/fornecedores/$categoria',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedPainelConfiguracoesRoute =
+  AuthenticatedPainelConfiguracoesRouteImport.update({
+    id: '/configuracoes',
+    path: '/configuracoes',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPainelEstatisticasRoute =
+  AuthenticatedPainelEstatisticasRouteImport.update({
+    id: '/estatisticas',
+    path: '/estatisticas',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
 const AuthenticatedPainelLeadsRoute =
   AuthenticatedPainelLeadsRouteImport.update({
     id: '/leads',
     path: '/leads',
     getParentRoute: () => AuthenticatedPainelRoute,
   } as any)
-const AuthenticatedPainelEstatisticasRoute = AuthenticatedPainelEstatisticasRouteImport.update({ id: '/estatisticas', path: '/estatisticas', getParentRoute: () => AuthenticatedPainelRoute } as any)\nconst AuthenticatedPainelConfiguracoesRoute = AuthenticatedPainelConfiguracoesRouteImport.update({ id: '/configuracoes', path: '/configuracoes', getParentRoute: () => AuthenticatedPainelRoute } as any)\nconst AuthenticatedPainelPerfilRoute =
+const AuthenticatedPainelPerfilRoute =
   AuthenticatedPainelPerfilRouteImport.update({
     id: '/perfil',
     path: '/perfil',
@@ -144,8 +158,10 @@ export interface FileRoutesByFullPath {
   '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores/': typeof FornecedoresIndexRoute
+  '/painel/configuracoes': typeof AuthenticatedPainelConfiguracoesRoute
+  '/painel/estatisticas': typeof AuthenticatedPainelEstatisticasRoute
   '/painel/leads': typeof AuthenticatedPainelLeadsRoute
-  '/painel/perfil': typeof AuthenticatedPainelPerfilRoute\n  '/painel/estatisticas': typeof AuthenticatedPainelEstatisticasRoute\n  '/painel/configuracoes': typeof AuthenticatedPainelConfiguracoesRoute\n  '/painel/estatisticas': typeof AuthenticatedPainelEstatisticasRoute\n  '/painel/configuracoes': typeof AuthenticatedPainelConfiguracoesRoute
+  '/painel/perfil': typeof AuthenticatedPainelPerfilRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -164,8 +180,10 @@ export interface FileRoutesByTo {
   '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores': typeof FornecedoresIndexRoute
+  '/painel/configuracoes': typeof AuthenticatedPainelConfiguracoesRoute
+  '/painel/estatisticas': typeof AuthenticatedPainelEstatisticasRoute
   '/painel/leads': typeof AuthenticatedPainelLeadsRoute
-  '/painel/perfil': typeof AuthenticatedPainelPerfilRoute\n  '/painel/estatisticas': typeof AuthenticatedPainelEstatisticasRoute\n  '/painel/configuracoes': typeof AuthenticatedPainelConfiguracoesRoute
+  '/painel/perfil': typeof AuthenticatedPainelPerfilRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -186,8 +204,10 @@ export interface FileRoutesById {
   '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores/': typeof FornecedoresIndexRoute
+  '/_authenticated/painel/configuracoes': typeof AuthenticatedPainelConfiguracoesRoute
+  '/_authenticated/painel/estatisticas': typeof AuthenticatedPainelEstatisticasRoute
   '/_authenticated/painel/leads': typeof AuthenticatedPainelLeadsRoute
-  '/_authenticated/painel/perfil': typeof AuthenticatedPainelPerfilRoute\n  '/_authenticated/painel/estatisticas': typeof AuthenticatedPainelEstatisticasRoute\n  '/_authenticated/painel/configuracoes': typeof AuthenticatedPainelConfiguracoesRoute
+  '/_authenticated/painel/perfil': typeof AuthenticatedPainelPerfilRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -208,8 +228,10 @@ export interface FileRouteTypes {
     | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores/'
+    | '/painel/configuracoes'
+    | '/painel/estatisticas'
     | '/painel/leads'
-    | '/painel/perfil'\n    | '/painel/estatisticas'\n    | '/painel/configuracoes'
+    | '/painel/perfil'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -228,8 +250,10 @@ export interface FileRouteTypes {
     | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores'
+    | '/painel/configuracoes'
+    | '/painel/estatisticas'
     | '/painel/leads'
-    | '/painel/perfil'\n    | '/painel/estatisticas'\n    | '/painel/configuracoes'
+    | '/painel/perfil'
   id:
     | '__root__'
     | '/'
@@ -249,8 +273,10 @@ export interface FileRouteTypes {
     | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores/'
+    | '/_authenticated/painel/configuracoes'
+    | '/_authenticated/painel/estatisticas'
     | '/_authenticated/painel/leads'
-    | '/_authenticated/painel/perfil'\n    | '/_authenticated/painel/estatisticas'\n    | '/_authenticated/painel/configuracoes'
+    | '/_authenticated/painel/perfil'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -385,6 +411,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FornecedoresCategoriaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/painel/configuracoes': {
+      id: '/_authenticated/painel/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/painel/configuracoes'
+      preLoaderRoute: typeof AuthenticatedPainelConfiguracoesRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/painel/estatisticas': {
+      id: '/_authenticated/painel/estatisticas'
+      path: '/estatisticas'
+      fullPath: '/painel/estatisticas'
+      preLoaderRoute: typeof AuthenticatedPainelEstatisticasRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
     '/_authenticated/painel/leads': {
       id: '/_authenticated/painel/leads'
       path: '/leads'
@@ -392,7 +432,7 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPainelLeadsRouteImport
       parentRoute: typeof AuthenticatedPainelRoute
     }
-    '/_authenticated/painel/estatisticas': { id: '/_authenticated/painel/estatisticas'; path: '/estatisticas'; fullPath: '/painel/estatisticas'; preLoaderRoute: typeof AuthenticatedPainelEstatisticasRouteImport; parentRoute: typeof AuthenticatedPainelRoute }\n    '/_authenticated/painel/configuracoes': { id: '/_authenticated/painel/configuracoes'; path: '/configuracoes'; fullPath: '/painel/configuracoes'; preLoaderRoute: typeof AuthenticatedPainelConfiguracoesRouteImport; parentRoute: typeof AuthenticatedPainelRoute }\n    '/_authenticated/painel/perfil': {
+    '/_authenticated/painel/perfil': {
       id: '/_authenticated/painel/perfil'
       path: '/perfil'
       fullPath: '/painel/perfil'
@@ -403,13 +443,17 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedPainelRouteChildren {
+  AuthenticatedPainelConfiguracoesRoute: typeof AuthenticatedPainelConfiguracoesRoute
+  AuthenticatedPainelEstatisticasRoute: typeof AuthenticatedPainelEstatisticasRoute
   AuthenticatedPainelLeadsRoute: typeof AuthenticatedPainelLeadsRoute
-  AuthenticatedPainelPerfilRoute: typeof AuthenticatedPainelPerfilRoute\n  AuthenticatedPainelEstatisticasRoute: typeof AuthenticatedPainelEstatisticasRoute\n  AuthenticatedPainelConfiguracoesRoute: typeof AuthenticatedPainelConfiguracoesRoute
+  AuthenticatedPainelPerfilRoute: typeof AuthenticatedPainelPerfilRoute
 }
 
 const AuthenticatedPainelRouteChildren: AuthenticatedPainelRouteChildren = {
+  AuthenticatedPainelConfiguracoesRoute: AuthenticatedPainelConfiguracoesRoute,
+  AuthenticatedPainelEstatisticasRoute: AuthenticatedPainelEstatisticasRoute,
   AuthenticatedPainelLeadsRoute: AuthenticatedPainelLeadsRoute,
-  AuthenticatedPainelPerfilRoute: AuthenticatedPainelPerfilRoute,\n  AuthenticatedPainelEstatisticasRoute: AuthenticatedPainelEstatisticasRoute,\n  AuthenticatedPainelConfiguracoesRoute: AuthenticatedPainelConfiguracoesRoute,
+  AuthenticatedPainelPerfilRoute: AuthenticatedPainelPerfilRoute,
 }
 
 const AuthenticatedPainelRouteWithChildren =
