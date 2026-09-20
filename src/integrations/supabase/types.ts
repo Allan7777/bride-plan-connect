@@ -169,12 +169,14 @@ export type Database = {
           bride_name: string | null
           category_id: string | null
           city: string | null
+          consultation_at: string | null
           created_at: string
           id: string
           message: string | null
           state: string | null
           status: Database["public"]["Enums"]["lead_status"]
           vendor_id: string
+          vendor_notes: string | null
           wedding_date: string | null
         }
         Insert: {
@@ -182,12 +184,14 @@ export type Database = {
           bride_name?: string | null
           category_id?: string | null
           city?: string | null
+          consultation_at?: string | null
           created_at?: string
           id?: string
           message?: string | null
           state?: string | null
           status?: Database["public"]["Enums"]["lead_status"]
           vendor_id: string
+          vendor_notes?: string | null
           wedding_date?: string | null
         }
         Update: {
@@ -195,12 +199,14 @@ export type Database = {
           bride_name?: string | null
           category_id?: string | null
           city?: string | null
+          consultation_at?: string | null
           created_at?: string
           id?: string
           message?: string | null
           state?: string | null
           status?: Database["public"]["Enums"]["lead_status"]
           vendor_id?: string
+          vendor_notes?: string | null
           wedding_date?: string | null
         }
         Relationships: [
