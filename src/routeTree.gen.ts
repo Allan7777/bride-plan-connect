@@ -26,6 +26,7 @@ import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated
 import { Route as FornecedorSlugRouteImport } from './routes/fornecedor.$slug'
 import { Route as FornecedoresIndexRouteImport } from './routes/fornecedores.index'
 import { Route as FornecedoresCategoriaRouteImport } from './routes/fornecedores.$categoria'
+import { Route as AuthenticatedPainelAgendaRouteImport } from './routes/_authenticated.painel.agenda'
 import { Route as AuthenticatedPainelLeadsRouteImport } from './routes/_authenticated.painel.leads'
 import { Route as AuthenticatedPainelPerfilRouteImport } from './routes/_authenticated.painel.perfil'
 
@@ -114,6 +115,12 @@ const FornecedoresCategoriaRoute = FornecedoresCategoriaRouteImport.update({
   path: '/fornecedores/$categoria',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedPainelAgendaRoute =
+  AuthenticatedPainelAgendaRouteImport.update({
+    id: '/agenda',
+    path: '/agenda',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
 const AuthenticatedPainelLeadsRoute =
   AuthenticatedPainelLeadsRouteImport.update({
     id: '/leads',
@@ -144,6 +151,7 @@ export interface FileRoutesByFullPath {
   '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores/': typeof FornecedoresIndexRoute
+  '/painel/agenda': typeof AuthenticatedPainelAgendaRoute
   '/painel/leads': typeof AuthenticatedPainelLeadsRoute
   '/painel/perfil': typeof AuthenticatedPainelPerfilRoute
 }
@@ -164,6 +172,7 @@ export interface FileRoutesByTo {
   '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores': typeof FornecedoresIndexRoute
+  '/painel/agenda': typeof AuthenticatedPainelAgendaRoute
   '/painel/leads': typeof AuthenticatedPainelLeadsRoute
   '/painel/perfil': typeof AuthenticatedPainelPerfilRoute
 }
@@ -186,6 +195,7 @@ export interface FileRoutesById {
   '/fornecedor/$slug': typeof FornecedorSlugRoute
   '/fornecedores/$categoria': typeof FornecedoresCategoriaRoute
   '/fornecedores/': typeof FornecedoresIndexRoute
+  '/_authenticated/painel/agenda': typeof AuthenticatedPainelAgendaRoute
   '/_authenticated/painel/leads': typeof AuthenticatedPainelLeadsRoute
   '/_authenticated/painel/perfil': typeof AuthenticatedPainelPerfilRoute
 }
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores/'
+    | '/painel/agenda'
     | '/painel/leads'
     | '/painel/perfil'
   fileRoutesByTo: FileRoutesByTo
@@ -228,6 +239,7 @@ export interface FileRouteTypes {
     | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores'
+    | '/painel/agenda'
     | '/painel/leads'
     | '/painel/perfil'
   id:
@@ -249,6 +261,7 @@ export interface FileRouteTypes {
     | '/fornecedor/$slug'
     | '/fornecedores/$categoria'
     | '/fornecedores/'
+    | '/_authenticated/painel/agenda'
     | '/_authenticated/painel/leads'
     | '/_authenticated/painel/perfil'
   fileRoutesById: FileRoutesById
@@ -385,6 +398,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FornecedoresCategoriaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/painel/agenda': {
+      id: '/_authenticated/painel/agenda'
+      path: '/agenda'
+      fullPath: '/painel/agenda'
+      preLoaderRoute: typeof AuthenticatedPainelAgendaRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
     '/_authenticated/painel/leads': {
       id: '/_authenticated/painel/leads'
       path: '/leads'
@@ -403,11 +423,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedPainelRouteChildren {
+  AuthenticatedPainelAgendaRoute: typeof AuthenticatedPainelAgendaRoute
   AuthenticatedPainelLeadsRoute: typeof AuthenticatedPainelLeadsRoute
   AuthenticatedPainelPerfilRoute: typeof AuthenticatedPainelPerfilRoute
 }
 
 const AuthenticatedPainelRouteChildren: AuthenticatedPainelRouteChildren = {
+  AuthenticatedPainelAgendaRoute: AuthenticatedPainelAgendaRoute,
   AuthenticatedPainelLeadsRoute: AuthenticatedPainelLeadsRoute,
   AuthenticatedPainelPerfilRoute: AuthenticatedPainelPerfilRoute,
 }
