@@ -18,11 +18,19 @@ export const TASK_STATUS_ORDER = [
 
 export const LEAD_STATUS_LABELS: Record<string, string> = {
   novo: "Novo",
-  contatado: "Contatado",
+  contatado: "Respondido",
   negociacao: "Em negociação",
-  fechado: "Fechado",
+  fechado: "Contratado",
   perdido: "Perdido",
 };
+
+export const LEAD_STATUS_ORDER = [
+  "novo",
+  "contatado",
+  "negociacao",
+  "fechado",
+  "perdido",
+] as const;
 
 export const VENDOR_STATUS_LABELS: Record<string, string> = {
   pendente: "Pendente",
