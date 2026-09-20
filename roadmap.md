@@ -15,3 +15,4 @@
 - [x] Moderação administrativa de imagens
 - [ ] Ativar Stripe e criar checkout após confirmação do proprietário
 - [ ] Publicar após aprovação final
+- [ ] Agenda do fornecedor conectada a consultas, casamentos e etapas dos leads
